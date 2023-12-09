@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mandi_watch/common/constants/layout_constants.dart';
 import 'package:mandi_watch/data/models/mandi_data.dart';
 import 'package:mandi_watch/di/injector.dart';
 import 'package:mandi_watch/presentation/app/home/bloc/home_cubit.dart';
 import 'package:mandi_watch/presentation/app/home/bloc/home_state.dart';
+import 'package:mandi_watch/presentation/app/market/market_screen.dart';
+import 'package:mandi_watch/presentation/app/routes/app_routes.dart';
 import 'package:mandi_watch/presentation/theme/color_theme/custom_color_theme.dart';
 import 'package:mandi_watch/presentation/theme/text_theme/custom_text_theme.dart';
 import 'package:mandi_watch/presentation/widget/custom_app_bar.dart';
@@ -39,8 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onTap(String state) {
-    debugPrint(state);
-    
+    List<Records> _stateRecords = records.getRecordsByState(state);
+    GoRouter.of(context)
+        .go(AppRoutes.market, extra: MarketArgs(_stateRecords, state));
   }
 
   @override
@@ -117,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Expanded(
             child: Text(
-              "Mandi Prices in States",
+              "Filtered by States",
               style: Theme.of(context).extension<CustomTextTheme>()!.bodyLb,
             ),
           ),

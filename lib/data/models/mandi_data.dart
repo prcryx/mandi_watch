@@ -202,4 +202,11 @@ extension RecordUtils on List<Records>? {
 
     return this!.map((record) => record.state).toSet().toList();
   }
+
+  List<Records> getRecordsByState(String targetState) {
+    if (this == null) {
+      return [];
+    }
+    return this!.where((record) => record.state == targetState).toList();
+  }
 }
