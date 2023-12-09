@@ -8,6 +8,7 @@ import 'package:mandi_watch/presentation/app/home/bloc/home_cubit.dart';
 import 'package:mandi_watch/presentation/app/home/bloc/home_state.dart';
 import 'package:mandi_watch/presentation/app/market/market_screen.dart';
 import 'package:mandi_watch/presentation/app/routes/app_routes.dart';
+import 'package:mandi_watch/presentation/app/routes/route_constants.dart';
 import 'package:mandi_watch/presentation/theme/color_theme/custom_color_theme.dart';
 import 'package:mandi_watch/presentation/theme/text_theme/custom_text_theme.dart';
 import 'package:mandi_watch/presentation/widget/custom_app_bar.dart';
@@ -41,10 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  void _onTap(String state) {
+  void _onTap(String state, BuildContext context) {
     List<Records> _stateRecords = records.getRecordsByState(state);
-    GoRouter.of(context)
-        .go(AppRoutes.market, extra: MarketArgs(_stateRecords, state));
+    context.goNamed(RouteConstants.market,
+        extra: MarketArgs(_stateRecords, state));
   }
 
   @override
@@ -84,7 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisSpacing: LayoutConstants.dimen_16,
                         ),
                         itemBuilder: (context, index) => InkWell(
-                          onTap: () => _onTap(uniqueStates![index] ?? ""),
+                          onTap: () =>
+                              _onTap(uniqueStates![index] ?? "", context),
                           child: Container(
                             decoration: ShapeDecoration(
                               color: Theme.of(context)
